@@ -5,6 +5,14 @@ export interface CardImage {
 }
 
 
+export interface CardPrice {
+    cardmarket_price: string;
+    tcgplayer_price: string;
+    ebay_price: string;
+    amazon_price: string;
+    coolstuffinc_price: string;
+}
+
 export interface Card {
     id: number;
     name: string;
@@ -16,4 +24,5 @@ export interface Card {
     race?: string;
     archetype?: string;
     card_images: CardImage[];
+    card_prices?: CardPrice[];
 }

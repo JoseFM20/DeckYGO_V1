@@ -11,12 +11,23 @@ interface Props {
 
 export default function CardItem({ card, onPress }: Props) {
     const img = card.card_images?.[0]?.image_url_small || card.card_images?.[0]?.image_url;
+    // Get price from card_prices (TCGPlayer or Amazon)
+    let priceText = 'Precio: No disponible';
+    if (card.card_prices && card.card_prices.length > 0) {
+        const prices = card.card_prices[0];
+        if (prices.tcgplayer_price && prices.tcgplayer_price !== "0.00") {
+            priceText = `TCGPlayer: $${prices.tcgplayer_price}`;
+        } else if (prices.amazon_price && prices.amazon_price !== "0.00") {
+            priceText = `Amazon: $${prices.amazon_price}`;
+        }
+    }
     return (
         <TouchableOpacity style={styles.container} onPress={onPress}>
             {img ? <Image source={{ uri: img }} style={styles.image} /> : null}
             <View style={styles.content}>
                 <Text numberOfLines={1} style={styles.title}>{card.name}</Text>
                 <Text numberOfLines={2} style={styles.subtitle}>{card.type} • {card.race || ''}</Text>
+                <Text style={styles.price}>{priceText}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -29,4 +40,5 @@ const styles = StyleSheet.create({
     content: { flex: 1 },
     title: { fontWeight: '700' },
     subtitle: { color: '#666', marginTop: 4 },
+    price: { color: '#228B22', marginTop: 4, fontWeight: '600' },
 });

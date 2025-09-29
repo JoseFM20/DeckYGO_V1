@@ -24,6 +24,7 @@ export default function CardDetailsScreen({ route }: any) {
     const img = card.card_images?.[0]?.image_url;
 
 
+    const prices = card.card_prices?.[0];
     return (
         <ScrollView style={styles.container} contentContainerStyle={{ padding: 16 }}>
             {img ? <Image source={{ uri: img }} style={styles.image} /> : null}
@@ -33,6 +34,22 @@ export default function CardDetailsScreen({ route }: any) {
             <View style={styles.stats}>
                 <Text>ATK: {card.atk ?? '-'}</Text>
                 <Text>DEF: {card.def ?? '-'}</Text>
+            </View>
+            <View style={styles.prices}>
+                <Text style={styles.price}>
+                    Amazon: {
+                        prices?.amazon_price && prices.amazon_price !== "0.00"
+                            ? `$${prices.amazon_price}`
+                            : 'No disponible'
+                    }
+                </Text>
+                <Text style={styles.price}>
+                    TCGPlayer: {
+                        prices?.tcgplayer_price && prices.tcgplayer_price !== "0.00"
+                            ? `$${prices.tcgplayer_price}`
+                            : 'No disponible'
+                    }
+                </Text>
             </View>
         </ScrollView>
     );
@@ -46,4 +63,6 @@ const styles = StyleSheet.create({
     meta: { color: '#666', marginTop: 6 },
     desc: { marginTop: 12, lineHeight: 20 },
     stats: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 12 },
+    prices: { marginTop: 18 },
+    price: { fontWeight: 'bold', color: '#2a7', marginTop: 4 },
 });
